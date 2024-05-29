@@ -22,9 +22,13 @@ struct Config {
     filename: String
 }
 
-fn parse_config(&args: &[String]) -> Config{
-    let query = args[1].clone();
-    let filename = args[2].clone();
-    Config { query, filename}
-
+impl Config {
+    fn new(&args: &[String]) -> Result<Config, &'static str> {
+        if args.len() < 3 {
+            return Err("not enough arguments");
+        }
+        let query = args[1].clone();
+        let filename = args[2].clone();
+        Ok(Config { query, filename })
+    }
 }
