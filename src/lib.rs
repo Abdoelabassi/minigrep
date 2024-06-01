@@ -24,6 +24,34 @@ pub fn run(config: Config) -> Result<(), Box<dyn Error>>{
 
     let mut content = String::new();
     file.read_to_string(&mut content)?;
-    println!("content with text\n{}", content);
+    for line in search(&config.query, &content){
+        println!("{}", line);
+    }
     Ok(())
+}
+pub fn search<'a>(query: &str, content: &'a str) -> Vec<&'a str>{
+    let mut result = Vec::new();
+    for line in content.lines(){
+        if line.contains(query){
+            result.push(line);
+        }
+    }
+    result
+
+}
+
+// tests
+#[cfg(test)]
+mod test {
+    use super::*;
+
+    #[test]
+    fn one_result(){
+        let query = "duct";
+        let contents = "\
+        Rust:\nfast, safe, productive.
+        Pick three.";
+
+        assert_eq!(vec!["fast, safe, productive."], search(query, contents));
+    }
 }
