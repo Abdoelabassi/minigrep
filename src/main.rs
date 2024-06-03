@@ -11,12 +11,12 @@ fn main() {
 
     // parse arguments
     let config = Config::new(&args).unwrap_or_else(|err|{
-        println!("Cannot parse arguments: {}", err);
+        eprintln!("Cannot parse arguments: {}", err);
         process::exit(1);
     });
     //  read file
     if let Err(e) = minigrep::run(config){
-        println!("Application error: {}", e);
+        eprintln!("Application error: {}", e);
         process::exit(1);
     }
 
